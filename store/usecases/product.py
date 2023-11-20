@@ -3,6 +3,7 @@ from uuid import UUID
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 import pymongo
 from store.db.mongo import db_client
+from store.models.product import ProductModel
 from store.schemas.product import ProductIn, ProductOut, ProductUpdate, ProductUpdateOut
 from store.core.exceptions import NotFoundException
 
@@ -14,10 +15,10 @@ class ProductUsecase:
         self.collection = self.database.get_collection("products")
 
     async def create(self, body: ProductIn) -> ProductOut:
-        product = ProductOut(**body.model_dump())
-        await self.collection.insert_one(product.model_dump())
+        product_model = ProductModel(**body.model_dump())
+        await self.collection.insert_one(product_model.model_dump())
 
-        return product
+        return ProductOut(**product_model.model_dump())
 
     async def get(self, id: UUID) -> ProductOut:
         result = await self.collection.find_one({"id": id})
