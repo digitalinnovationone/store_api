@@ -48,3 +48,7 @@ async def delete(
         await usecase.delete(id=id)
     except NotFoundException as exc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=exc.message)
+@router.get("/products/")
+def list_products(min_price: float = 0, max_price: float = float("inf"), db: Session = Depends(get_db)):
+    products = db.query(Product).filter(Product.price > min_price, Product.price < max_price).all()
+    return products
