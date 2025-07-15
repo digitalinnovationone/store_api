@@ -60,3 +60,14 @@ async def test_usecases_delete_should_not_found():
         err.value.message
         == "Product not found with filter: 1e4f214e-85f7-461a-89d0-a751a32e3bb9"
     )
+
+def test_filter_products_by_price(client):
+    client.post("/products/", json={"name": "TV", "price": 6000})
+    client.post("/products/", json={"name": "Geladeira", "price": 4000})
+    client.post("/products/", json={"name": "Notebook", "price": 7500})
+
+    response = client.get("/products/?min_price=5000&max_price=8000")
+    products = response.json()
+    assert len(products) == 2
+    assert all(5000 < p["price"] < 8000 for p in products)
+

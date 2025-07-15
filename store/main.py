@@ -17,3 +17,4 @@ class App(FastAPI):
 
 app = App()
 app.include_router(api_router)
+
