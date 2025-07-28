@@ -7,5 +7,6 @@ services:
       - 27017:27017
     restart: on-failure
     environment:
-      - MONGODB_ADVERTISED_HOSTNAME=localhost
-      - ALLOW_EMPTY_PASSWORD=yes
+      - MONGODB_ADVERTISED_HOSTNAME=${MONGO_HOST}
+      - MONGODB_ROOT_USER=${MONGO_ROOT_USER}
+      - MONGODB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}

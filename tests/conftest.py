@@ -6,7 +6,7 @@ from store.db.mongo import db_client
 from store.schemas.product import ProductIn, ProductUpdate
 from store.usecases.product import product_usecase
 from tests.factories import product_data, products_data
-from httpx import AsyncClient
+import httpx
 
 
 @pytest.fixture(scope="session")
@@ -33,11 +33,11 @@ async def clear_collections(mongo_client):
 
 
 @pytest.fixture
-async def client() -> AsyncClient:
+async def client() -> "httpx.AsyncClient":  # type: ignore
     from store.main import app
 
-    async with AsyncClient(app=app, base_url="http://test") as ac:
-        yield ac
+    async with httpx.AsyncClient(app=app, base_url="http://test") as ac:
+        yield ac  # pyright: ignore[reportReturnType]
 
 
 @pytest.fixture
@@ -52,12 +52,12 @@ def product_id() -> UUID:
 
 @pytest.fixture
 def product_in(product_id):
-    return ProductIn(**product_data(), id=product_id)
+    return ProductIn(**product_data(), id=product_id)  # type: ignore
 
 
 @pytest.fixture
 def product_up(product_id):
-    return ProductUpdate(**product_data(), id=product_id)
+    return ProductUpdate(**product_data(), id=product_id)  # type: ignore
 
 
 @pytest.fixture

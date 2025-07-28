@@ -60,3 +60,16 @@ async def test_usecases_delete_should_not_found():
         err.value.message
         == "Product not found with filter: 1e4f214e-85f7-461a-89d0-a751a32e3bb9"
     )
+
+
+# @pytest.mark.asyncio
+# async def test_controller_create_duplicate_id_should_fail(
+#     client, products_url, product_inserted
+# ):
+#     duplicate_product = product_inserted.model_dump()
+#     response = await client.post(products_url, json=duplicate_product)
+
+#     assert response.status_code == 400
+#     assert (
+#         response.json()["detail"] == f"Produto com ID {product_inserted.id} já existe"
+#     )

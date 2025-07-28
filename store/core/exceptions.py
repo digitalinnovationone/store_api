@@ -8,3 +8,7 @@ class BaseException(Exception):
 
 class NotFoundException(BaseException):
     message = "Not Found"
+
+
+class InsertionException(BaseException):
+    message = "Falha ao inserir produto"
